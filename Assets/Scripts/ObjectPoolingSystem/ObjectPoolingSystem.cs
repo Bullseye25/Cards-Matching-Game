@@ -1,0 +1,97 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+public class ObjectPoolingSystem : MonoBehaviour
+{
+    [Header("Pooling")]
+    public GameObject prefab;
+    public int initialPoolSize = 10;
+
+    protected List<GameObject> pool = new List<GameObject>();
+
+
+    // ========================================
+    // Setup
+    // ========================================
+    protected virtual void Start()
+    {
+        BuildInitialPool();
+    }
+
+    protected virtual Transform PoolParentTransform => this.transform;
+
+
+    // ========================================
+    // Building / Creating
+    // ========================================
+    protected void BuildInitialPool()
+    {
+        if (prefab == null)
+            return;
+
+        if (pool.Count > 0)
+            return;
+
+        for (int i = 0; i < initialPoolSize; i++)
+        {
+            var obj = CreateNewObject();
+            obj.SetActive(false);
+            pool.Add(obj);
+        }
+    }
+
+    protected GameObject CreateNewObject()
+    {
+        GameObject newObj = Instantiate(prefab, PoolParentTransform);
+        newObj.name = prefab.name + "_Pooled";
+        return newObj;
+    }
+
+
+    // ========================================
+    // Get Object
+    // ========================================
+    protected GameObject GetPooledObject()
+    {
+        foreach (var obj in pool)
+        {
+            if (!obj.activeSelf)
+                return obj;
+        }
+
+        // No free object → expand pool
+        var newObj = CreateNewObject();
+        pool.Add(newObj);
+        return newObj;
+    }
+
+
+    // ========================================
+    // Clear Objects (disable only)
+    // ========================================
+    public virtual void ClearPool()
+    {
+        foreach (var obj in pool)
+            obj.SetActive(false);
+    }
+
+
+    // ========================================
+    // Destroy All Objects (Editor Safe)
+    // ========================================
+    [ContextMenu("Destroy All Pooled Objects")]
+    public virtual void DestroyAllPooled()
+    {
+        for (int i = pool.Count - 1; i >= 0; i--)
+        {
+            var obj = pool[i];
+#if UNITY_EDITOR
+            UnityEditor.Undo.DestroyObjectImmediate(obj);
+#else
+            Destroy(obj);
+#endif
+        }
+
+        pool.Clear();
+    }
+}
