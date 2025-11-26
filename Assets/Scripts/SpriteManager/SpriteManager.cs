@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class SpriteManager : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private GridSystemManager gridSystemManager;
+
     [Space]
     [Header("Card Content")]
     [SerializeField] private CardSpriteCollection cardsCollection;   // All available sprites to choose from
@@ -14,18 +20,13 @@ public class SpriteManager : MonoBehaviour
     // Tracks how many times each sprite has been given out
     private Dictionary<Sprite, int> spriteUsageCount = new Dictionary<Sprite, int>();
 
-    private void Awake()
-    {
-        SelectCardSprites();
-    }
-
     /// <summary>
     /// Returns a random allowed sprite from selectedSprites,
     /// ensuring that each sprite can only be returned twice.
     /// Returns (Sprite sprite, int index)
     /// If no sprite available -> returns (null, -1)
     /// </summary>
-    public (Sprite sprite, int index) GetData()
+    private (Sprite sprite, int index) GetData()
     {
         if (selectedSprites == null || selectedSprites.Count == 0)
         {
@@ -68,15 +69,46 @@ public class SpriteManager : MonoBehaviour
     /// Calculates how many cards fit based on the grid settings
     /// and selects a random subset of sprites for the matching pairs.
     /// </summary>
-    public void SelectCardSprites()
+    public void SelectCardSprites(Action onComplete)
     {
+        if (gridSystemManager == null || cardsCollection == null || cardsCollection.cardSprites.Count == 0)
+        {
+            Debug.LogError("SpriteManager: Missing references or sprites.");
+            return;
+        }
+
+        var settings = gridSystemManager.GetActiveSettings();
+
+        if (settings == null)
+        {
+            Debug.LogError("SpriteManager: No active grid settings found.");
+            return;
+        }
+
+        int cols = settings.constraintColumnCount;
+        int rows = settings.constraintRowCount;
+
+        // Total number of grid cells
+        int totalCells = cols * rows;
+
+        // Unique sprite pairs needed
+        int pairsNeeded = totalCells / 2;
+
+        var count = cardsCollection.cardSprites.Count;
+
+        if (pairsNeeded > count)
+        {
+            Debug.LogError($"Not enough sprites! Need {pairsNeeded}, but only have {count}.");
+            return;
+        }
+
         // Reset previous data
         selectedSprites.Clear();
         spriteUsageCount.Clear();
 
         List<Sprite> spritePool = new List<Sprite>(cardsCollection.cardSprites);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < pairsNeeded; i++)
         {
             int index = Random.Range(0, spritePool.Count);
 
@@ -85,6 +117,8 @@ public class SpriteManager : MonoBehaviour
 
             spritePool.RemoveAt(index);
         }
+
+        onComplete?.Invoke();
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ public class GridSystemManager : ObjectPoolingSystem
     [Header("Difficulty Presets")]
     [SerializeField] private GridSettingsByLevel defaultSettings;
     [SerializeField] private List<GridSettingsByLevel> levels = new List<GridSettingsByLevel>();
+
+    [Space]
+    [SerializeField] private SpriteManager spriteManager;
 
     // ========================================
     // Override Pool Parent (Grid Layout)
@@ -34,29 +38,28 @@ public class GridSystemManager : ObjectPoolingSystem
     // ========================================
     // Lifecycle
     // ========================================
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-        ApplyGridSettings();
-    }
+        ApplyGridSettings((total) => 
+        {
+            spriteManager.SelectCardSprites(() => {
 
-    [ContextMenu("Apply Grid Settings")]
-    public void EditorApplySettings()
-    {
-        Start();
+                EnforceGridObjectLimit(total);
+            });
+        });
     }
 
     // ========================================
     // Apply Grid Settings
     // ========================================
-    private void ApplyGridSettings()
+    private void ApplyGridSettings(Action<int> onComplete)
     {
         if (gridLayoutGroup == null || levels.Count == 0)
             return;
 
         foreach (var setting in levels)
         {
-            if (setting.difficultyLevel == 2) // Get the current game level from game manager later.
+            if (setting.difficultyLevel == GameManager.Instance.GameLevel)
             {
                 defaultSettings = setting;
                 break;
@@ -97,7 +100,8 @@ public class GridSystemManager : ObjectPoolingSystem
         }
 
         int total = Mathf.Max(1, colCount * rowCount);
-        EnforceGridObjectLimit(total);
+
+        onComplete?.Invoke(total);
     }
 
     // ========================================

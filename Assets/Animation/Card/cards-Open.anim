@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: cards-Open
+  serializedVersion: 7
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: 5826479529469629657, guid: 83de939978fdb8b468da3a6371cf4d85, type: 3}
+    - time: 0.083333336
+      value: {fileID: -7133230849722980620, guid: f012523aad185c64aac5b2945616cbd4, type: 3}
+    - time: 0.16666667
+      value: {fileID: -5643823122917221161, guid: e8f7ed4db7fb02c43b50aef80c677c11, type: 3}
+    - time: 0.25
+      value: {fileID: -762006884320212971, guid: 02e920b4ec0a1a443996f74dec10b432, type: 3}
+    - time: 0.33333334
+      value: {fileID: -649263729, guid: 90a694d683ecb16429241a65db36cf6f, type: 3}
+    - time: 0.41666666
+      value: {fileID: 8122958132117102214, guid: 30533116e8338434ab82cd95134ff8e3, type: 3}
+    - time: 0.5
+      value: {fileID: -5776253253771959580, guid: a0747906699f13549a8b2f1acc08cfc4, type: 3}
+    - time: 0.5833333
+      value: {fileID: -3915004787114093982, guid: bbcf45c2be3fdb144a8392724f78d0a3, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 114
+    script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+    flags: 2
+  m_SampleRate: 60
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 2015549526
+      script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: 5826479529469629657, guid: 83de939978fdb8b468da3a6371cf4d85, type: 3}
+    - {fileID: -7133230849722980620, guid: f012523aad185c64aac5b2945616cbd4, type: 3}
+    - {fileID: -5643823122917221161, guid: e8f7ed4db7fb02c43b50aef80c677c11, type: 3}
+    - {fileID: -762006884320212971, guid: 02e920b4ec0a1a443996f74dec10b432, type: 3}
+    - {fileID: -649263729, guid: 90a694d683ecb16429241a65db36cf6f, type: 3}
+    - {fileID: 8122958132117102214, guid: 30533116e8338434ab82cd95134ff8e3, type: 3}
+    - {fileID: -5776253253771959580, guid: a0747906699f13549a8b2f1acc08cfc4, type: 3}
+    - {fileID: -3915004787114093982, guid: bbcf45c2be3fdb144a8392724f78d0a3, type: 3}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.59999996
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 0
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0.5833333
+    functionName: Flip
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 1
+    messageOptions: 0
+  - time: 0.5833333
+    functionName: SetCardActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

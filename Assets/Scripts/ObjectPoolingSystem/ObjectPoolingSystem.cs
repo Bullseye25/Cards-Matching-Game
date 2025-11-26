@@ -13,35 +13,7 @@ public class ObjectPoolingSystem : MonoBehaviour
     [Space]
     [SerializeField] private UnityEvent<GameObject> onCreate = new UnityEvent<GameObject>();
 
-    // ========================================
-    // Setup
-    // ========================================
-    protected virtual void Start()
-    {
-        BuildInitialPool();
-    }
-
     protected virtual Transform PoolParentTransform => this.transform;
-
-
-    // ========================================
-    // Building / Creating
-    // ========================================
-    protected void BuildInitialPool()
-    {
-        if (prefab == null)
-            return;
-
-        if (pool.Count > 0)
-            return;
-
-        for (int i = 0; i < initialPoolSize; i++)
-        {
-            var obj = CreateNewObject();
-            obj.SetActive(false);
-            pool.Add(obj);
-        }
-    }
 
     protected GameObject CreateNewObject()
     {
@@ -68,7 +40,6 @@ public class ObjectPoolingSystem : MonoBehaviour
         pool.Add(newObj);
         return newObj;
     }
-
 
     // ========================================
     // Clear Objects (disable only)
