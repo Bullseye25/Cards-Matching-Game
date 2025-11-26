@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ObjectPoolingSystem : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class ObjectPoolingSystem : MonoBehaviour
 
     protected List<GameObject> pool = new List<GameObject>();
 
+    [Space]
+    [SerializeField] private UnityEvent<GameObject> onCreate = new UnityEvent<GameObject>();
 
     // ========================================
     // Setup
@@ -44,6 +47,7 @@ public class ObjectPoolingSystem : MonoBehaviour
     {
         GameObject newObj = Instantiate(prefab, PoolParentTransform);
         newObj.name = prefab.name + "_Pooled";
+        onCreate?.Invoke(newObj);
         return newObj;
     }
 

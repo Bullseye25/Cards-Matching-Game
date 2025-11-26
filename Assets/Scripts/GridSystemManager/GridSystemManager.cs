@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class GridSystemManager : ObjectPoolingSystem
 {
+    public static GridSystemManager Instance { get; private set; }
+
     [Header("Grid Settings")]
     public GridLayoutGroup gridLayoutGroup;
 
@@ -16,6 +18,18 @@ public class GridSystemManager : ObjectPoolingSystem
     // ========================================
     protected override Transform PoolParentTransform => gridLayoutGroup.transform;
 
+    // ========================================
+    // Awake for Singleton
+    // ========================================
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     // ========================================
     // Lifecycle
@@ -32,7 +46,6 @@ public class GridSystemManager : ObjectPoolingSystem
         Start();
     }
 
-
     // ========================================
     // Apply Grid Settings
     // ========================================
@@ -43,7 +56,7 @@ public class GridSystemManager : ObjectPoolingSystem
 
         foreach (var setting in levels)
         {
-            if (setting.difficultyLevel == 2)
+            if (setting.difficultyLevel == 2) // Get the current game level from game manager later.
             {
                 defaultSettings = setting;
                 break;
@@ -87,7 +100,6 @@ public class GridSystemManager : ObjectPoolingSystem
         EnforceGridObjectLimit(total);
     }
 
-
     // ========================================
     // Enforce Grid Limit
     // ========================================
@@ -106,7 +118,6 @@ public class GridSystemManager : ObjectPoolingSystem
             pool[i].SetActive(false);
     }
 
-
     // ========================================
     // Spawn
     // ========================================
@@ -122,9 +133,8 @@ public class GridSystemManager : ObjectPoolingSystem
         return obj;
     }
 
-
     // ========================================
-    // Clear Grid
+    // Clear / Destroy
     // ========================================
     [ContextMenu("Clear Grid")]
     public override void ClearPool()
@@ -138,6 +148,9 @@ public class GridSystemManager : ObjectPoolingSystem
         base.DestroyAllPooled();
     }
 
+    // ========================================
+    // Get Active Settings
+    // ========================================
     public GridSettingsByLevel GetActiveSettings()
     {
         return defaultSettings;

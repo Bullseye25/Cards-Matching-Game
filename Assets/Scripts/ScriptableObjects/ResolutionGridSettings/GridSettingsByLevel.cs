@@ -2,8 +2,9 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "GridSettingsByLevel",
-    menuName = "UI/Grid/Grid Settings By Level",
+    menuName = "UI/Project/Grid Settings By Level",
     order = 1)]
+
 public class GridSettingsByLevel : ScriptableObject
 {
     [Header("Difficulty Level")]
@@ -17,12 +18,17 @@ public class GridSettingsByLevel : ScriptableObject
     public int constraintColumnCount = 0; // 0 = ignore
     public int constraintRowCount = 0;    // 0 = ignore
 
-    public GridSettingsByLevel(int difficultyLevel, Vector2 cellSize, Vector2 spacing, int constraintColumnCount, int constraintRowCount)
+    public int GetTotalPairs()
     {
-        this.difficultyLevel = difficultyLevel;
-        this.cellSize = cellSize;
-        this.spacing = spacing;
-        this.constraintColumnCount = constraintColumnCount;
-        this.constraintRowCount = constraintRowCount;
+        int cols = constraintColumnCount;
+        int rows = constraintRowCount;
+
+        // Total number of grid cells
+        int totalCells = cols * rows;
+
+        // Unique sprite pairs needed
+        int pairsNeeded = totalCells / 2;
+
+        return pairsNeeded;
     }
 }
